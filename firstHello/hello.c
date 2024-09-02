@@ -3,7 +3,7 @@
   #include <stdio.h> 
   #include <stdlib.h>
 
-// THIS FUCTION DO NOT TAKE ANY ARGUMENTS AND IT IS VOID
+// THIS FUNCTION DO NOT TAKE ANY ARGUMENTS AND IT IS VOID
 int main(void) {
   //  EOF STANDS FOR END OF FILE 
   if(puts("Hello, world!")==EOF){
