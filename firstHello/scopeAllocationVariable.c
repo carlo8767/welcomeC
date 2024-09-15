@@ -18,11 +18,15 @@ void functionScope (char blockScopeName [] ){
 }
 
 
+
+
+
 int main (void){
     fileScopeStatic = 9;
     increamentValue();
     printf("%s" "%d""\n", "This is a file scope ",fileScopeStatic);
     char functionScopeArray [] = "Function Scope";
     functionScope(functionScopeArray);
+
     
 }

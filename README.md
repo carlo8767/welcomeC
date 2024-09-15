@@ -1,2 +1,3 @@
 # welcomeC
-this is project is welcome to C
+this is a welcom project in C
+
