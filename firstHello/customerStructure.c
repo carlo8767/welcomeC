@@ -5,7 +5,7 @@
 struct customer *pointerCustomer;  // pointer to struct s
 
 // THE SIZE IS GREATER OF THE SIZE OF ITS MEMBER
-struct Customer {
+struct CustomerTag {
     char name [1][15];
     int age;
 } customer;
@@ -18,7 +18,7 @@ union SchoolStructur
         int id;
         char name[1][15];
     } student; // WITH THE TAG I ACCESS A THIS OBJCET
-} schoolStructure};
+} schoolStructure;
 
 
 
@@ -36,8 +36,8 @@ struct Student newStudent = {25, "John"};
 // ARRAY TYPE IS NOT ASSIGNABLE IN C
 strcpy(customer.name,"Pippo");
 printf("%s\n",customer.name[0]);
-// ISTANTIATE A STRCTURE
-struct Customer customerOne = {"Carlo",36};
+// ISTANTIATE A STRCTURE WITH ITS TAG
+struct CustomerTag customerOne = {"Carlo",36};
 printf("%s\n",customerOne.name[0]);
 
 }
