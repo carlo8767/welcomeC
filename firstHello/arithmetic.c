@@ -24,8 +24,8 @@ bool positive (int a){
     return result;
 }
 
-float floatSumAssociative (float a, float b){
-    return (a * b);
+float floatSumNotAssociative (float a, float b, float c){
+    return (a + b)*c;
 }
 
 int main (){
@@ -42,8 +42,9 @@ int main (){
 
     float first = 20.19F;
     float second = 15.19F;
-    float returnFirstSum = floatSumNotAssociative(first, second);
-    float returnSecondSum = floatSumNotAssociative(second, first);
+    float third = 17.19F;
+    float returnFirstSum = floatSumNotAssociative(first, second,third);
+    float returnSecondSum = floatSumNotAssociative(third, first, second);
     printf("The first sum result in %f\n""and the second sum result in %f\n", returnFirstSum, returnSecondSum);
     return 0;
 }
