@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "exercise_3_reading_again": "cpp"
+        "exercise_3_reading_again": "cpp",
+        "compare": "c",
+        "type_traits": "c"
     }
 }
