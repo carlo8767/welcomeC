@@ -1,11 +1,5 @@
 {
     "files.associations": {
-        "stdlib.h": "c",
-        "stdbool.h": "c",
-        "limits.h": "c",
-        "stdio.h": "c",
-        "typeinfo": "c",
-        "type_traits": "c"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
+        "exercise_3_reading_again": "cpp"
+    }
 }

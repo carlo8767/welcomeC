@@ -40,7 +40,7 @@ void  printTypeCustomer (bool typeUser){
 }
 
 int main (void){
-    struct CustomerBank newCustomer = {"Donald", "Trump", 2000000.00};
+     CustomerBank newCustomer = {"Donald", "Trump", 2000000.00};
     bool resultRevenue = verifyRevenue(newCustomer.valueRevenue);
     printTypeCustomer(resultRevenue);
     return 0;
