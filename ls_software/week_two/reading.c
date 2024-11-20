@@ -15,7 +15,7 @@ int main() {
   }
 
   // Print the response
- // printf("The average of %d and %d is %lf\n", &x, &y, &average);
+  printf("The average of %d and %d is %lf\n", x, y, average);
   printf("The maximum is %0.2lf\n", maximum);
   return 0;
 }
