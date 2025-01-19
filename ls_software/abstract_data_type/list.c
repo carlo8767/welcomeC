@@ -12,6 +12,50 @@ typedef struct List {
 } List;
 
 
+
+
+int getFirstAboveX(List* list, int x){
+    
+    ListElement* anchor = list->anchor;
+    int verify;
+    while(anchor->next!=NULL){
+        verify = anchor->value; 
+        if( verify> x ){
+            return verify;
+        }
+        anchor = anchor->next;
+    }
+}
+
+
+void insert_element (List* listHead, int value, int position){
+    ListElement* list = listHead->anchor;
+    ListElement* newElement = malloc(sizeof(ListElement));
+    int count = 0;
+    while(list->next!=NULL){
+        if(count == position) {
+            ListElement* old = list;
+            // store the adress after one
+            newElement->next  = list->next;
+            newElement->value = value; 
+            // store the previous with the new one    
+            old->next = newElement;
+
+            list = old->next;  
+        }
+        else {
+            list = list->next;
+        }
+        
+        count ++;
+    }
+    list = listHead->anchor;
+    while(list->next !=NULL){
+        printf("The values are %d\n", list->value);
+        list = list->next;
+    }
+}
+
 int getSize (List* listHead ){
     ListElement* listElement = listHead->anchor;
     int count = 0;
@@ -31,15 +75,6 @@ void printValue (List* listHead){
     }
 }
 
-int getFirstAboveX(List* list, int x){
-    ListElement* listElement = list ->anchor;
-    int value =0;
-    while(listElement!=NULL){
-        value = listElement -> value;
-        listElement = listElement -> next;
-    }
-    return value;
-}
 
 int getNthAboveX(List* list, int x, int n){
     ListElement* element = list -> anchor;
@@ -57,12 +92,19 @@ int getNthAboveX(List* list, int x, int n){
 }
 
 int main (){
+int values = 3;
+int *dere_values = &values;
+int **second_dere = &dere_values;
+*second_dere+=2;
+printf("%p/n", values);
+
 
 List* list = malloc(sizeof(List));
 list->anchor = malloc(sizeof(ListElement));
 list->anchor->value = 5;
 list->anchor->next = NULL;
-printf("%d", getNthAboveX(list, 3, 1));
+// printf("%d", getNthAboveX(list, 3, 1));
+getFirstAboveX(list, 4);
 
 int *arr  = malloc(sizeof(int));
 int *second_arr;
@@ -81,10 +123,10 @@ ListElement* third = malloc(sizeof(ListElement));
 third->value = 9;
 second->next  = third;
 
+insert_element(listHead, 89, 2);
 ListElement* fourth = malloc(sizeof(ListElement));
 fourth->value = 7;
 third->next = fourth;
 getSize(listHead);
-printValue(listHead);
 
 }

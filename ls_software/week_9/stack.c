@@ -34,5 +34,10 @@ int main() {
       fail("Push / Pop is wrong!");
     }
   }
+
+  push(s, 1);
+  push(s, 2);
+  stack_t* new_stack =add_all(s);
   destroy_stack(s);
+  destroy_stack(new_stack);
 }

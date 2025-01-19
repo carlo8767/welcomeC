@@ -1,0 +1,18 @@
+wheat:
+	@echo Growing wheat
+	touch wheat
+
+flour: # Flour can only be made if we have wheat
+	@echo Making flour
+	# When producing flour (create the file), use up (delete) the wheat
+
+sugar:
+	# Buy sugar
+eggs:
+	# Buy eggs
+butter:
+	# Buy butter
+
+cake: # A cake needs flour, sugar, butter, eggs (and more, but lets simplify things)
+	# When making the cake, use up the ingredients
+	touch mess

@@ -7,6 +7,8 @@
         "stdio.h": "c",
         "math.h": "c",
         "typeinfo": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "cstdlib": "c",
+        "*.tcc": "c"
     }
 }

@@ -47,7 +47,7 @@ int pop (stack_t* stack){
     int fill_levels = stack->fill_level;
     int values_remove = stack->array[fill_levels-1];
     stack->fill_level = fill_levels-1;
-    stack->size = fill_levels-1;
+    stack->size -=1;
     // YOU DO NOT NEED REALLOC BECAUSE WITH FILL LEVEL YOU 
     // HIDE THE CONTENT OF THE LAST INDEX
     stack->array = (int*)realloc(stack->array, sizeof(int[stack->size]));
@@ -59,6 +59,21 @@ int peek (stack_t* stack){
     int peek_value = stack->array[peek_index-1];
     return peek_value;
 }
+
+
+stack_t* add_all (stack_t* stack){
+  stack_t* new_stack = (stack_t*) malloc(sizeof(stack_t));
+  int size = stack->size;
+  new_stack->array = (int*) malloc(sizeof(stack->size));
+  new_stack->fill_level = stack->fill_level;
+  for(int i=0; i< stack->size; i++){
+    new_stack->array [i] = stack->array[i];
+  }
+  return new_stack;
+
+}
+
+
 
 
 // TASK: Define a struct for the stack and introduce the type alias stack_t

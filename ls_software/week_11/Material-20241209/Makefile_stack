@@ -1,0 +1,14 @@
+all: main
+
+main: main.c // What other direct dependencies are there?
+	@echo "Compile main"
+	// compile main.c to main
+
+stack.o: // Which dependencies?
+	@echo "Compile stack"
+	// compiling stack.o
+
+clean:
+	// what should we clean?
+
+.PHONY: // ...

@@ -1,0 +1,8 @@
+all: // what comes here?
+
+main: // What are the *direct* dependencies of main?
+	// Compile
+
+clean: // Should clean everything you generate
+
+.PHONY: // what comes here?
