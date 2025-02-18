@@ -25,25 +25,33 @@ Loan newLoan( double m, double l, double r, double p ){
 
 void calculatePayBack (Loan* loan){
   double value = loan[0].amount_borrowed;
+  
   double amount_repayment = 0;
-    for(int i =0; i< value; i++){
-       value -= loan[i].monthly_payment ;
-       double rates = loan[i].amount_borrowed * loan[i].rates_interest;
-       printf("%f\n", rates);
-       double roundedDown = floor(rates);
+  int index_loan = 0;
+  while(index_loan < loan->numbers_loan){
+    for(int i =0; value > 0; i++){
+       value -=  loan[0].monthly_payment; 
+       printf("the value after the payment is %f\n",value);
+       double rates = value * (loan[index_loan].rates_interest/100);
+       printf("the rate is %f\n", rates);
+       int roundedDown = (int)rates;
+      //  double roundedDown = floor(rates);
        // CALCULATATION REPAYMENT
-       loan[i].amount_repayment +=  roundedDown +  loan[i].monthly_payment;
-       printf("%f\n",roundedDown);
-       value += roundedDown;
-       printf("%f\n",value);
+      loan[index_loan].amount_repayment +=  roundedDown + loan[index_loan].monthly_payment;
+      printf("the amoount repayment is %f\n",loan[index_loan].amount_repayment);
+      value += (double)roundedDown;
+      printf("%f\n",value);
     }
+    index_loan+=1;
+  }
+   
 }
 
 void recoverInput(){
   double m;
   double l;
   double r;
-  double p;
+  double p;-
   printf("Write the amount of the loan and the proposal\n");
   scanf("%lf %lf", &m, &l);
   Loan* ln = malloc(sizeof(Loan)*l);
