@@ -3,7 +3,8 @@
 # include <math.h>
 # include <string.h>
 # include <stdbool.h>
-#include <assert.h>
+ #include <assert.h>
+
 
 
 
@@ -14,25 +15,64 @@ typedef struct Loan{
   double monthly_payment;
   double amount_repayment;
   double time_repayment;
+  bool ableLoanPayoff;
 } Loan;
 
 
 Loan newLoan( double m, double l, double r, double p ){
-  Loan loan = {m,l,r,p, 0, 0};
+  Loan loan = {m,l,r,p, 0, 0, true};
   return loan;
 }
 
-void calculateTwo (Loan* loan){
+
+bool verifyPayOff (Loan* loan){
+
+  for(int i=0; i< loan[0].numbers_loan; i++){
+      if(loan[i].ableLoanPayoff == true){
+         return true;
+      }
+  }
+  return false;
+}
+
+
+int verifyBestOutput(Loan* loan){
+    int index_best_amount_repayment = 0;
+    for(int i=0; i< loan[0].numbers_loan-1; i++){
+        for(int o=i+1;o<loan[0].numbers_loan; o++ ){
+           // VERIFY IF THEY HAVE THE SAME AMOUNT
+            if(loan[index_best_amount_repayment].amount_repayment == loan[o].amount_repayment){
+               if(loan[index_best_amount_repayment].time_repayment < loan[o].time_repayment){
+                  index_best_amount_repayment = i;
+               }
+               else {
+                index_best_amount_repayment = o;
+               }
+              }
+            else if(loan[index_best_amount_repayment].amount_repayment < loan[o].amount_repayment){
+               index_best_amount_repayment = i;
+            }
+            else {
+               index_best_amount_repayment = o;
+            }
+        }
+    }
+    return index_best_amount_repayment;
+}
+
+
+
+
+void calculateLoanAmountTime (Loan* loan){
     int index_loan =0;
-    double values = loan[0].amount_borrowed;
-    double month_pay = loan[0].monthly_payment;
-    double add_interest = 0;
-    int time = 0;
-    double amount_return = 0;
-    // ADD CHECK IF YOU CAN REPAY
-    while(index_loan < loan[0].numbers_loan ){
+    while(index_loan < loan[index_loan].numbers_loan ){
+      double values = loan[index_loan].amount_borrowed;;
+      int time = 0;
+      double add_interest = 0;
+      double month_pay = loan[index_loan].monthly_payment;
+      double amount_return = 0;
       while(values > 0){
-        // verify the difference
+        // DIFFERENCE VERIFICATION
         if(values < month_pay){
             month_pay = values;
             values -= values;
@@ -43,7 +83,13 @@ void calculateTwo (Loan* loan){
         
         // CALCULATE INTEREST AND ADD AT VALUES
         add_interest =  values * (loan[index_loan].rates_interest/(double)100);
+        // ROUND DOWN
         values+= (int)add_interest;
+        // VERIFY IF YOU CAN PAY OFF
+        if ((int)add_interest > month_pay){
+           loan[index_loan].ableLoanPayoff = false;
+           break;
+        }
        // CALCULATE THE  TIME
         time +=1;
         // CALCUALTE AMOUNT MONEY GIVE BACK NO KEEN INTEREST RETURN
@@ -56,43 +102,33 @@ void calculateTwo (Loan* loan){
         }
         
       }
+      loan[index_loan].time_repayment = time;
+      loan[index_loan].amount_repayment = amount_return;
       index_loan+=1;
     }
-
   }
 
-/*
-void calculatePayBack (Loan* loan){
-  double value_loan = loan[0].amount_borrowed;
-  double time = 0;
-  int index_loan = 0;
-  double amount_repayment = 0;
-  double number_proposal = loan[0].numbers_loan;
-  while(index_loan < number_proposal){
-    for(int i =0; i < value_loan ; i++){
-      value_loan -=loan[index_loan].monthly_payment; 
-       printf("the value after the payment is %lf\n",value_loan);
-       double rates = value_loan * ((double)loan[index_loan].rates_interest/(double)100);
-       printf("the rate is %lf\n", rates);
-       double roundedDown = floor(rates);
-       printf("the round is %lf\n", roundedDown);
-       //CALCULATATION REPAYMENT
-      amount_repayment += (double) roundedDown+ loan[index_loan].monthly_payment;;
-      printf("the amount repayment is %lf\n",amount_repayment);
-      value_loan += (double)roundedDown;
-      printf("the remain loan si   %f\n",value_loan);
-      time += 1;
-      printf("the time to estinguish the loan is  %lf\n",time);
-      // STORE THE VALUES
-      loan[index_loan].time_repayment = time;
+bool verifyConstraintInput(double m, double l, double r, double p){
+    if ((double)1 > m || m > (double)1000000){
+        return false;
     }
-    index_loan+=1;
-  }
-}
-  */ 
+    else if ((double)1 > l || l > (double)20){
+      return false;
+    }
+    else if ((double)0 > r || r > (double)1000 ){
+      return false;
+    }
+    else if((double)0 > p  || p > (double)1000000){
+    }
+    else {
+      return true;
+    }
 
 
-void recoverInput(){
+  
+}  
+
+bool recoverInput(){
   double m;
   double l;
   double r;
@@ -104,22 +140,25 @@ void recoverInput(){
     printf("Write the interest rate and the monthly payment\n");
     scanf("%lf %lf", &r, &p);
     ln[i] = newLoan(m, l, r, p);
-    // CALCUALTE PAYBACK
   }
-  calculateTwo(ln);
+  if(!verifyConstraintInput(m, l, r, p)){
+    printf("impossible");
+    free(ln);
+    return false;
+  }
+  calculateLoanAmountTime(ln);
+  // VERIFY THAT AT LEAST ONE OF THE LOAN CAN BE PAIOFF;
+  if (!verifyPayOff(ln)){
+    printf("impossible\n");
+    free(ln);
+    return false;
+  }
+  // BEST AMOUNT
+  int index_best_output = verifyBestOutput(ln);
+  printf("%lf %lf\n",ln[index_best_output].amount_repayment, ln[index_best_output].time_repayment);
   free(ln);
+  return true;
 }
-
-
-
-/*
-bool calculationPayOff(double value, double rates,double pay ){
-  
-}
-
-
-*/
-
 
 int main(void){
   recoverInput();
