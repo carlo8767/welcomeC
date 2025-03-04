@@ -115,7 +115,7 @@ bool recoverInput() {
   double l;
   double r;
   double p;
-  -printf("Write the amount of the loan and the proposal\n");
+  printf("Write the amount of the loan and the proposal\n");
   scanf("%lf %lf", &m, &l);
   Loan *ln = malloc(sizeof(Loan) * l);
   for (int i = 0; i < l; i++) {
