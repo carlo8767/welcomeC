@@ -10,5 +10,9 @@
         "stdbool.h": "c",
         "cstdlib": "c",
         "*.tcc": "c"
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "carlo8767",
+        "projectKey": "carlo8767_welcomeC"
     }
 }

@@ -115,11 +115,10 @@ bool recoverInput() {
   double l;
   double r;
   double p;
-  printf("Write the amount of the loan and the proposal\n");
+
   scanf("%lf %lf", &m, &l);
   Loan *ln = malloc(sizeof(Loan) * l);
   for (int i = 0; i < l; i++) {
-    printf("Write the interest rate and the monthly payment\n");
     scanf("%lf %lf", &r, &p);
     ln[i] = newLoan(m, l, r, p);
   }
@@ -137,8 +136,9 @@ bool recoverInput() {
   }
   // BEST AMOUNT
   int index_best_output = verifyBestOutput(ln);
-  printf("%lf %lf\n", ln[index_best_output].amount_repayment,
-         ln[index_best_output].time_repayment);
+  double out  = ln[index_best_output].amount_repayment;
+  double second = ln[index_best_output].time_repayment;
+  printf("%.0f %.0f", out, second);
   free(ln);
   return true;
 }

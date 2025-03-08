@@ -26,7 +26,7 @@ typedef struct MapsLocation {;
 
 int verifyNumberOfManyGoopPizza( int indexLocation, char* character, int willingWalk, int sizeCharacter){
   // I TAKE THE INDEX LOCATION
-  // I ADD THE WILLING WALK TO STEP THE BOUNDARY OF MY CHARECTER
+  // I ADD THE WILLING WALK TO STEP THE BOUNDARY OF MY CHARACTER
   int size = indexLocation+1 +willingWalk; // 5
   int count = 0; 
   // NUMBER OF LEFT OCCURENCE
@@ -58,7 +58,7 @@ int verifyNumberOfManyGoopPizza( int indexLocation, char* character, int willing
 void verifyPizzaLocation( char* character, int* location,  int willing_walk, int size_location ,int sizeCharacter){
    int index = 0;
    int maximalNumberPizzaPlaces= 0;
-   int *memo = malloc(sizeof(int)); 
+   int memo [1];
    memo[0] = 0;
    
   // EXTRACT LOCATION VALUE
@@ -73,12 +73,6 @@ void verifyPizzaLocation( char* character, int* location,  int willing_walk, int
   }
 
   printf("%d\n", memo[0] );
-  
-  
-
-
-
-
   // VERIFY THAT THE INDEX LOCATION PLUS WILLING
 }
 
@@ -86,30 +80,27 @@ void verifyPizzaLocation( char* character, int* location,  int willing_walk, int
 
 
 void recoverInput(){
-  int n=0; // LENGHT PIZZA STREET
+  int n=0; // LENGTH PIZZA STREET
   int m=0; // NUMBER OF POSSIBLE LOCATIONS
   int r=0; // THE DISTANCE LEA AND HER FRIEND ARE WILLING TO WORK
   
-  printf("Enter the length of pizza street, number of possible location, and the distance willing to walk\n");
   scanf("%d %d %d",  &n, &m, &r);
+  if(n >= 1 && n  <= 100000){
+    char* character = malloc(sizeof(char)*n);
+    scanf( "%s",  character);
+    if( m>= 1 && r >= 1 ){
+      int* h = malloc(sizeof(int)*m);
+      for (int i = 0; i < m; i++) {
+        scanf("%d", &h[i]);  // **Reads multiple values in the same line**
+      }
+      PizzaChain p = addPizzaChain(r, character, h, n, m);
+      verifyPizzaLocation(p.character, p.location, p.willing_walk, m , p.sizeCharacter);
+      free(h);
+      free(character);
 
-  printf("Enter the position of possible restourant 1 is contains good pizza restouratnt\n");
-  char* character = malloc(sizeof(char)*n);
-  scanf( "%s",  character);
-  for(int i=0; i<n; i++){
-    printf("%d\n", character[i]);
+    }
   }
-  printf("Enter the possible place to stay\n");
-  int* h = malloc(sizeof(int)*m);
  
-
-  for (int i = 0; i < m; i++) {
-    scanf("%d", &h[i]);  // **Reads multiple values in the same line**
-  }
-  PizzaChain p = addPizzaChain(r, character, h, n, m);
-  verifyPizzaLocation(p.character, p.location, p.willing_walk, m , p.sizeCharacter);
-  free(h);
-  free(character);
 }
 
 
