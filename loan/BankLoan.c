@@ -26,107 +26,129 @@ bool verifyPayOff(Loan *loan) {
     if (loan[i].ableLoanPayoff == true) {
       return true;
     }
+    
   }
   return false;
 }
 
+// https://en.wikipedia.org/wiki/Guard_(computer_science)
+
 int verifyBestOutput(Loan *loan) {
   int index_best_amount_repayment = 0;
-  for (int i = 0; i < loan[0].numbers_loan - 1; i++) {
-    for (int o = i + 1; o < loan[0].numbers_loan; o++) {
+  for (int i = 1; i < loan[0].numbers_loan - 1; i++) {
+    // EXCLUDE WHO HAS PAYOFF FALSE
+     if(loan[index_best_amount_repayment].ableLoanPayoff == false  
+        || loan[i].ableLoanPayoff ==false)  {
+        continue;
+     }
       // VERIFY IF THEY HAVE THE SAME AMOUNT
+      // VERIFY THE TIME
       if (loan[index_best_amount_repayment].amount_repayment ==
-          loan[o].amount_repayment) {
+          loan[i].amount_repayment) {
         if (loan[index_best_amount_repayment].time_repayment <
-            loan[o].time_repayment) {
-          index_best_amount_repayment = i;
-        } else {
-          index_best_amount_repayment = o;
-        }
-      } else if (loan[index_best_amount_repayment].amount_repayment <
-                 loan[o].amount_repayment) {
-        index_best_amount_repayment = i;
-      } else {
-        index_best_amount_repayment = o;
+            loan[i].time_repayment) {
+            index_best_amount_repayment = i;
+        } 
       }
-    }
+      else if (loan[index_best_amount_repayment].amount_repayment <
+                 loan[i].amount_repayment) {
+             index_best_amount_repayment = i;
+      } 
   }
   return index_best_amount_repayment;
 }
 
 void calculateLoanAmountTime(Loan *loan) {
-  int index_loan = 0;
-  while (index_loan < loan[index_loan].numbers_loan) {
-    double values = loan[index_loan].amount_borrowed;
-    ;
+
+  for (int i = 0; i < loan[0].numbers_loan; i++ ){
+    double values = loan[i].amount_borrowed;
     int time = 0;
     double add_interest = 0;
-    double month_pay = loan[index_loan].monthly_payment;
+    double month_pay = loan[i].monthly_payment;
     double amount_return = 0;
     while (values > 0) {
-      // DIFFERENCE VERIFICATION
-      if (values < month_pay) {
-        month_pay = values;
-        values -= values;
-      } else {
+      // DIFFERENCE VERIFICATION TO AVOID OVERCOME AT 0
         values -= month_pay;
-      }
+  
 
       // CALCULATE INTEREST AND ADD AT VALUES
-      add_interest = values * (loan[index_loan].rates_interest / (double)100);
+      add_interest = values * (loan[i].rates_interest / (double)100);
       // ROUND DOWN
+      // REMOVE
       values += floor(add_interest);
       // VERIFY IF YOU CAN PAY OFF
+      // REFORMAT INT
+
       if (floor(add_interest) > month_pay) {
-        loan[index_loan].ableLoanPayoff = false;
+        loan[i].ableLoanPayoff = false;
         break;
       }
+      if(loan[i].rates_interest == 0 && loan[i].monthly_payment == 0 ){
+        loan[i].ableLoanPayoff = false;
+        break;
+      }
+
+
       // CALCULATE THE  TIME
       time += 1;
       // CALCUALTE AMOUNT MONEY GIVE BACK NO KEEN INTEREST RETURN
       // amount_return += (int)add_interest+month_pay;
       if (values < month_pay) {
         amount_return += month_pay;
-      } else {
+        month_pay = values;
+      } 
+      else {
         amount_return = month_pay * time;
       }
     }
-    loan[index_loan].time_repayment = time;
-    loan[index_loan].amount_repayment = amount_return;
-    index_loan += 1;
+    loan[i].time_repayment = time;
+    loan[i].amount_repayment = amount_return;
   }
 }
 
+
+// https://cwe.mitre.org/data/definitions/394
 bool verifyConstraintInput(double m, double l, double r, double p) {
-  if ((double)1 > m || m > (double)1000000) {
-    return false;
-  } else if ((double)1 > l || l > (double)20) {
-    return false;
-  } else if ((double)0 > r || r > (double)1000) {
-    return false;
-  } else if ((double)0 > p || p > (double)1000000) {
-  } else {
-    return true;
-  }
+  bool value_return = true;
+  if (m <  1  || m > 1000000) {
+    value_return =  false;
+  } else if ( l < 1 || l > 20) {
+    value_return = false;
+  } else if ( r < 0 || r >  1000) {
+    value_return = false;
+  } else if ( p < 0 || p >  1000000) {
+    value_return = false;
+  } 
+  return value_return;
 }
 
+// https://cwe.mitre.org/data/definitions/457
 bool recoverInput() {
-  double m;
-  double l;
-  double r;
-  double p;
-
+  double m = 0;
+  double l = 0;
+  double r = 0;
+  double p = 0;
   scanf("%lf %lf", &m, &l);
   Loan *ln = malloc(sizeof(Loan) * l);
+  int size_object = 0;
   for (int i = 0; i < l; i++) {
     scanf("%lf %lf", &r, &p);
-    ln[i] = newLoan(m, l, r, p);
+    if (!verifyConstraintInput(m, l, r, p)) {
+        continue;
+    }
+    else {
+      ln[i] = newLoan(m, l, r, p);
+      size_object+=1;
+    }
   }
-  if (!verifyConstraintInput(m, l, r, p)) {
+
+  if(size_object == 0){
     printf("impossible");
     free(ln);
     return false;
   }
+  
+
   calculateLoanAmountTime(ln);
   // VERIFY THAT AT LEAST ONE OF THE LOAN CAN BE PAIOFF;
   if (!verifyPayOff(ln)) {
@@ -138,9 +160,18 @@ bool recoverInput() {
   int index_best_output = verifyBestOutput(ln);
   double out  = ln[index_best_output].amount_repayment;
   double second = ln[index_best_output].time_repayment;
-  printf("%.0f %.0f", out, second);
+  printf("%.0f %.0f\n", out, second);
   free(ln);
   return true;
 }
 
-int main(void) { recoverInput(); }
+int main(void) { recoverInput();
+
+
+
+
+
+
+
+
+}

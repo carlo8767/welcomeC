@@ -23,8 +23,8 @@ typedef struct MapsLocation {;
 }
 
 
-
-int verifyNumberOfManyGoopPizza( int indexLocation, char* character, int willingWalk, int sizeCharacter){
+// https://isocpp.org/wiki/faq/const-correctness
+int verifyNumberOfManyGoopPizza( int indexLocation, const char* character, int willingWalk, int sizeCharacter){
   // I TAKE THE INDEX LOCATION
   // I ADD THE WILLING WALK TO STEP THE BOUNDARY OF MY CHARACTER
   int size = indexLocation+1 +willingWalk; // 5
