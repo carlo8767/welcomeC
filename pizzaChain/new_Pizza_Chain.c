@@ -3,7 +3,22 @@
 #include <stdbool.h>
 // I need a way to move easily the table 
 // and assign a number
+/*
+With the fact that is not specify if I have to count the location 
+from a bigindian or lower indian
+I decided to verify the position from left to right
+the limit is 
+int limit = location[a]+ willing_walk;
 
+6 2 1
+110011
+3 5
+
+3 1 1
+001
+3
+
+*/
 
 typedef struct PizzaChain{
   int numberLocations;
@@ -27,8 +42,11 @@ void cut_array_ (char* character, int* location, int sizeCharacter, int size_loc
     int memo_pizza_location = 0;
     for (int a=0; a<size_location; a++){
           int number_pizza_location = 0;
-         int limit = location[a]+ willing_walk;
-         for (int i= 0; i < limit; i++){
+         /// SETTING THE INDEX CORRECT BECUAUSE POS 2 IT IS AN INDEX 1 BUT THE LIMIT WEST
+         // IS CORRECT BECAUSE I NEED TO STOP BEFORE  THE LENGTH
+         int limit_est = location[a]+ willing_walk;
+         int limit_west = location[a] - willing_walk-1;
+         for (int i= limit_west; i < limit_est; i++){
                int value = character[i]; 
                if (value == 49 ){
                 number_pizza_location+=1;  
@@ -40,10 +58,6 @@ void cut_array_ (char* character, int* location, int sizeCharacter, int size_loc
     }
     printf("%d", memo_pizza_location);
 }
-
-
-
-
 
 void recoverInput(){
   int n=0; // LENGTH PIZZA STREET
@@ -60,7 +74,7 @@ void recoverInput(){
         scanf("%d", &h[i]);  // **Reads multiple values in the same line**
       }
       PizzaChain p = addPizzaChain(r, character, h, n, m);
-      cut_array_(p.character, p.location, p.willing_walk, m , p.sizeCharacter);
+      cut_array_(p.character, p.location, p.sizeCharacter, m, p.willing_walk);
       free(h);
       free(character);
 
@@ -68,7 +82,6 @@ void recoverInput(){
   }
  
 }
-
 
 int main (){
  recoverInput();
