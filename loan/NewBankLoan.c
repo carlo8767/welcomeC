@@ -63,7 +63,7 @@ void calculateLoanAmountTime(Loan *loan) {
                 month_pay = month_pay+ values;
             }
             add_interest = values * (rates / (double)100);
-            add_interest = (int) add_interest;
+            add_interest = floor(add_interest);
             values+= add_interest;
             amount_return += month_pay;
             calculationTime +=1;

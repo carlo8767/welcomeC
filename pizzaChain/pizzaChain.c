@@ -1,4 +1,4 @@
-#include <stdio.h>
+  #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 // I need a way to move easily the table 
