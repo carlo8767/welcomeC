@@ -9,7 +9,8 @@
         "typeinfo": "c",
         "stdbool.h": "c",
         "cstdlib": "c",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "style_pizzachain": "cpp"
     },
     "sonarlint.connectedMode.project": {
         "connectionId": "carlo8767",
